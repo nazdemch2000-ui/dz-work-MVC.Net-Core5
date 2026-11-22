@@ -1,0 +1,38 @@
+﻿@model MVC_Dz5.Models.Book
+@{
+    ViewData["Title"] = "Нова книга";
+}
+
+<div class="container py-4" style="max-width: 640px;">
+    <a asp-action="Index" class="btn btn-link px-0 mb-3">&larr; До каталогу</a>
+    <h1 class="fw-bold mb-4">Нова книга</h1>
+
+    <form asp-action="Create" method="post" class="card card-body border-0 shadow-sm">
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label">Назва</label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Author" class="form-label">Автор</label>
+            <input asp-for="Author" class="form-control" />
+            <span asp-validation-for="Author" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Genre" class="form-label">Жанр</label>
+            <input asp-for="Genre" class="form-control" />
+            <span asp-validation-for="Genre" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Price" class="form-label">Ціна, грн</label>
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary align-self-start">Створити</button>
+    </form>
+    <p class="text-muted mt-3 mb-0"><small>Обкладинки можна додати після створення, на сторінці редагування.</small></p>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

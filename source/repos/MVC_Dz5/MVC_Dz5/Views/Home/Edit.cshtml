@@ -1,0 +1,76 @@
+﻿@model MVC_Dz5.Models.Book
+@{
+    ViewData["Title"] = "Редагування книги";
+}
+
+<div class="container py-4" style="max-width: 720px;">
+    <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-link px-0 mb-3">&larr; До книги</a>
+    <h1 class="fw-bold mb-4">Редагування книги</h1>
+
+    <div class="card card-body border-0 shadow-sm">
+        <h5 class="mb-3">Обкладинки</h5>
+
+        @if (Model.Images.Any())
+        {
+            <div class="d-flex flex-wrap gap-3 mb-3">
+                @foreach (var img in Model.Images)
+                {
+                    <div class="text-center">
+                        <img src="@img.Url" alt="" class="rounded shadow-sm"
+                             style="width: 110px; height: 150px; object-fit: cover;" />
+                        <form asp-action="DeleteImage" method="post" class="mt-1">
+                            <input type="hidden" name="imageId" value="@img.Id" />
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Видалити</button>
+                        </form>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <p class="text-muted">Обкладинок поки немає.</p>
+        }
+
+        <form asp-action="AddImage" method="post" class="row g-2 align-items-end">
+            <input type="hidden" name="bookId" value="@Model.Id" />
+            <div class="col">
+                <label class="form-label">Посилання на зображення</label>
+                <input type="url" name="url" class="form-control" placeholder="https://..." required />
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-success">Додати фото</button>
+            </div>
+        </form>
+    </div>
+
+
+    <form asp-action="Edit" method="post" class="card card-body border-0 shadow-sm mb-4">
+        <input type="hidden" asp-for="Id" />
+        <div class="mb-3">
+            <label asp-for="Title" class="form-label">Назва</label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Author" class="form-label">Автор</label>
+            <input asp-for="Author" class="form-control" />
+            <span asp-validation-for="Author" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Genre" class="form-label">Жанр</label>
+            <input asp-for="Genre" class="form-control" />
+            <span asp-validation-for="Genre" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Price" class="form-label">Ціна, грн</label>
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-primary align-self-start">Зберегти</button>
+    </form>
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<MVC_Dz5.Models.Comment>
+
+<h4 class="mb-3">Коментарі</h4>
+
+<form asp-action="AddComment" asp-controller="Home" method="post" class="card card-body bg-light border-0 mb-4">
+    <input type="hidden" name="bookId" value="@ViewBag.BookId" />
+    <div class="mb-2">
+        <label for="author" class="form-label">Ім'я</label>
+        <input type="text" class="form-control" id="author" name="author" placeholder="Необов'язково" />
+    </div>
+    <div class="mb-3">
+        <label for="text" class="form-label">Коментар</label>
+        <textarea class="form-control" id="text" name="text" rows="3" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary align-self-start">Додати коментар</button>
+</form>
+
+@if (Model.Any())
+{
+    foreach (var comment in Model)
+    {
+        <div class="card mb-2 border-0 shadow-sm">
+            <div class="card-body py-2">
+                <p class="mb-1">@comment.Text</p>
+                <small class="text-muted">
+                    @(string.IsNullOrWhiteSpace(comment.Author) ? "Анонім" : comment.Author)
+                    · @comment.CreatedAt.ToString("dd.MM.yyyy HH:mm")
+                </small>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <p class="text-muted">Коментарів поки немає. Будьте першим!</p>
+}
