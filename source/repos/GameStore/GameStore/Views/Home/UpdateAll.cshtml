@@ -1,0 +1,77 @@
+@{
+    ViewData["Title"] = "Масове оновлення товарів";
+}
+@model IEnumerable<Product>
+
+<h3 class="p-2 bg-primary text-white text-center">Масове оновлення товарів</h3>
+
+<form asp-action="UpdateAll" method="post">
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-1 fw-bold">Id</div>
+            <div class="col fw-bold">Назва</div>
+            <div class="col fw-bold">Категорія</div>
+            <div class="col fw-bold">Закупівельна ціна</div>
+            <div class="col fw-bold">Роздрібна ціна</div>
+        </div>
+
+        @{
+            int i = 0;
+        }
+        @foreach (Product product in Model)
+        {
+            <div class="row p-1">
+                <div class="col-1">
+                    @product.Id
+                    <input type="hidden" name="products[@i].Id" value="@product.Id" />
+                </div>
+                <div class="col">
+                    <input class="form-control" name="products[@i].Name" value="@product.Name" />
+                </div>
+                <div class="col">
+                    <select class="form-control" name="products[@i].CategoryId">
+                        @foreach (Category category in ViewBag.Categories)
+                        {
+                            <option value="@category.Id" selected="@(product.CategoryId == category.Id)">@category.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="col">
+                    <input class="form-control" name="products[@i].PurchasePrice" value="@product.PurchasePrice" />
+                </div>
+                <div class="col">
+                    <input class="form-control" name="products[@i].RetailPrice" value="@product.RetailPrice" />
+                </div>
+            </div>
+            i++;
+        }
+
+        @* inline-додавання: порожній рядок для нового товару *@
+        <div class="row p-1 border-top mt-2 pt-2">
+            <div class="col-1">
+                <input type="hidden" name="products[@i].Id" value="0" />
+            </div>
+            <div class="col">
+                <input class="form-control" name="products[@i].Name" placeholder="Новий товар" />
+            </div>
+            <div class="col">
+                <select class="form-control" name="products[@i].CategoryId">
+                    @foreach (Category category in ViewBag.Categories)
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="col">
+                <input class="form-control" name="products[@i].PurchasePrice" value="0" />
+            </div>
+            <div class="col">
+                <input class="form-control" name="products[@i].RetailPrice" value="0" />
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-3">
+        <button class="btn btn-primary" type="submit">Зберегти</button>
+        <a asp-action="Index" class="btn btn-secondary">Скасування</a>
+    </div>
+</form>

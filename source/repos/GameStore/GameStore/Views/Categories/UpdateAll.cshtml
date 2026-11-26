@@ -1,0 +1,53 @@
+@{
+    ViewData["Title"] = "Масове оновлення категорій";
+}
+@model IEnumerable<Category>
+
+<h3 class="p-2 bg-primary text-white text-center">Масове оновлення категорій</h3>
+
+<form asp-action="UpdateAll" method="post">
+    <div class="container-fluid mt-3">
+        <div class="row">
+            <div class="col-1 fw-bold">Id</div>
+            <div class="col fw-bold">Назва</div>
+            <div class="col fw-bold">Опис</div>
+        </div>
+
+        @{
+            int i = 0;
+        }
+        @foreach (Category category in Model)
+        {
+            <div class="row p-1">
+                <div class="col-1">
+                    @category.Id
+                    <input type="hidden" name="categories[@i].Id" value="@category.Id" />
+                </div>
+                <div class="col">
+                    <input class="form-control" name="categories[@i].Name" value="@category.Name" />
+                </div>
+                <div class="col">
+                    <input class="form-control" name="categories[@i].Description" value="@category.Description" />
+                </div>
+            </div>
+            i++;
+        }
+
+        @* inline-додавання: порожній рядок для нової категорії *@
+        <div class="row p-1 border-top mt-2 pt-2">
+            <div class="col-1">
+                <input type="hidden" name="categories[@i].Id" value="0" />
+            </div>
+            <div class="col">
+                <input class="form-control" name="categories[@i].Name" placeholder="Нова категорія" />
+            </div>
+            <div class="col">
+                <input class="form-control" name="categories[@i].Description" placeholder="Опис" />
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-3">
+        <button class="btn btn-primary" type="submit">Зберегти</button>
+        <a asp-action="Index" class="btn btn-secondary">Скасування</a>
+    </div>
+</form>
