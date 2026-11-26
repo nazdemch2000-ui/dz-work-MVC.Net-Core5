@@ -1,0 +1,10 @@
+@{
+    ViewData["Title"] = "Registration successful";
+}
+
+<div class="alert alert-success mt-3" role="alert">
+    @(TempData["SuccessMessage"] ?? "Registration completed successfully!")
+</div>
+
+<a asp-controller="Account" asp-action="Register" class="btn btn-primary">Register another user</a>
+<a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back to home</a>
